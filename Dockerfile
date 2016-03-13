@@ -21,8 +21,6 @@ LC_ALL=en_US.UTF-8 add-apt-repository ppa:ondrej/php && \
 apt-get update && \
 apt-get upgrade -y && \
 BUILD_PACKAGES="supervisor nginx php7.0-fpm git php7.0-mysql php7.0-dev curl php-curl mcrypt php7.0-mcrypt php-intl" && \
-# php-apc php-curl php-gd php-intl php-mcrypt php-memcache php-sqlite php-tidy # php-xmlrpc php-xsl php-pgsql php-mongo php-ldap pwgen
-# php7.0-dev" && \
 apt-get -y install $BUILD_PACKAGES && \
 apt-get remove --purge -y software-properties-common && \
 apt-get autoremove -y && \
@@ -32,6 +30,19 @@ echo -n > /var/lib/apt/extended_states && \
 rm -rf /var/lib/apt/lists/* && \
 rm -rf /usr/share/man/?? && \
 rm -rf /usr/share/man/??_*
+
+# xdebug
+ADD scripts/xdebug-2.4.0.tgz /tmp/xdebug-2.4.0.tgz
+RUN cd /tmp/xdebug-2.4.0.tgz/xdebug-2.4.0 && phpize
+RUN cd /tmp/xdebug-2.4.0.tgz/xdebug-2.4.0 && ./configure --enable-xdebug
+RUN cd /tmp/xdebug-2.4.0.tgz/xdebug-2.4.0 && make
+RUN cd /tmp/xdebug-2.4.0.tgz/xdebug-2.4.0 && cp modules/xdebug.so /usr/lib/php
+#FOR FPM
+RUN echo 'zend_extension="/usr/lib/php/xdebug.so"' > /etc/php/7.0/fpm/conf.d/20-xdebug.ini
+RUN echo 'xdebug.remote_enable=1' >> /etc/php/7.0/fpm/conf.d/20-xdebug.ini
+#FOR CLI
+RUN echo 'zend_extension="/usr/lib/php/xdebug.so"' > /etc/php/7.0/cli/conf.d/20-xdebug.ini
+RUN echo 'xdebug.remote_enable=1' >> /etc/php/7.0/cli/conf.d/20-xdebug.ini
 
 # tweak nginx config
 RUN sed -i -e"s/worker_processes  1/worker_processes 5/" /etc/nginx/nginx.conf && \
