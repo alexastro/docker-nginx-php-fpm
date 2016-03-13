@@ -1,12 +1,14 @@
 ## Introduction
 This is a Dockerfile project to build a container image for nginx and php-fpm 7.0 with xdebug. 
 ### Git repository
-The genuine project can be found here: [https://github.com/ngineered/nginx-php-fpm](https://github.com/ngineered/nginx-php-fpm)
+Dockerfile project is placed here:[https://github.com/alexastro/nginx-php-fpm](https://github.com/alexastro/nginx-php-fpm
+
+The base genuine project can be found here: [https://github.com/ngineered/nginx-php-fpm](https://github.com/ngineered/nginx-php-fpm)
 I've extended the original version with **PHP 7.0**, **xdebug** and **composer**. 
 
 If you have any improvements please submit a pull request.
 ### Docker hub repository
-The Docker hub build can be found here: [https://registry.hub.docker.com/u/alexastro/nginx-php-fpm/](https://registry.hub.docker.com/u/alexastro/nginx-php-fpm/)
+The Docker hub build can be found here: [https://hub.docker.com/r/alexastro/nginx-php-fpm/](https://hub.docker.com/r/alexastro/nginx-php-fpm/)
 ## Versions
 
 | Tag    | nginx  | PHP   | xdebug     | Ubuntu  |
