@@ -20,7 +20,7 @@ apt-get install -y language-pack-en-base && \
 LC_ALL=en_US.UTF-8 add-apt-repository ppa:ondrej/php && \
 apt-get update && \
 apt-get upgrade -y && \
-BUILD_PACKAGES="supervisor nginx php7.0-fpm git php7.0-mysql php7.0-dev curl php-curl mcrypt php7.0-mcrypt php-intl" && \
+BUILD_PACKAGES="supervisor nginx php7.0-fpm git npm php7.0-mysql php7.0-dev php7.0-common php7.0-zip curl php-curl mcrypt php7.0-mcrypt php-intl php-mbstring php7.0-mbstring" && \
 apt-get -y install $BUILD_PACKAGES && \
 apt-get remove --purge -y software-properties-common && \
 apt-get autoremove -y && \
@@ -40,9 +40,17 @@ RUN cd /tmp/xdebug-2.4.0.tgz/xdebug-2.4.0 && cp modules/xdebug.so /usr/lib/php
 #FOR FPM
 RUN echo 'zend_extension="/usr/lib/php/xdebug.so"' > /etc/php/7.0/fpm/conf.d/20-xdebug.ini
 RUN echo 'xdebug.remote_enable=1' >> /etc/php/7.0/fpm/conf.d/20-xdebug.ini
+RUN echo 'xdebug.remote_port=9000' >> /etc/php/7.0/fpm/conf.d/20-xdebug.ini
+#RUN echo 'xdebug.remote_host=192.168.99.1' >> /etc/php/7.0/fpm/conf.d/20-xdebug.ini
+RUN echo 'xdebug.remote_connect_back=1' >> /etc/php/7.0/fpm/conf.d/20-xdebug.ini
+#RUN echo 'xdebug.idekey=PHPSTORM' >> /etc/php/7.0/fpm/conf.d/20-xdebug.ini
 #FOR CLI
 RUN echo 'zend_extension="/usr/lib/php/xdebug.so"' > /etc/php/7.0/cli/conf.d/20-xdebug.ini
 RUN echo 'xdebug.remote_enable=1' >> /etc/php/7.0/cli/conf.d/20-xdebug.ini
+RUN echo 'xdebug.remote_port=9000' >> /etc/php/7.0/cli/conf.d/20-xdebug.ini
+#RUN echo 'xdebug.remote_host=192.168.99.1' >> /etc/php/7.0/cli/conf.d/20-xdebug.ini
+RUN echo 'xdebug.remote_connect_back=1' >> /etc/php/7.0/cli/conf.d/20-xdebug.ini
+#RUN echo 'xdebug.idekey=PHPSTORM' >> /etc/php/7.0/cli/conf.d/20-xdebug.ini
 
 # tweak nginx config
 RUN sed -i -e"s/worker_processes  1/worker_processes 5/" /etc/nginx/nginx.conf && \
